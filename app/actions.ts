@@ -125,24 +125,16 @@ export async function createOrder(data: CheckoutFormValues) {
 		// })
 
 		// Посылание письма с заказом на почту
-    // await sendEmail(
-    //   data.email,
-    //   'Next Pizza / Оплатите заказ #' + order.id,
-    //   PayOrderTemplate({
-    //     orderId: order.id,
-    //     totalAmount: order.totalAmount,
-    //     paymentUrl,
-    //   }),
-    // );
-		await sendEmail(
-			data.email,
-			'Next Pizza / Оплатите заказ #' + order.id,
+    await sendEmail(
+      data.email,
+      'Next Pizza / Оплатите заказ #' + order.id,
+      // PayOrderTemplate({
 			React.createElement(PayOrderTemplate, {
-				orderId: order.id,
-				totalAmount: order.totalAmount,
-				paymentUrl,
-			}),
-		);
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl,
+      }),
+    );
 
     return paymentUrl;
 	} catch (error) {
@@ -212,11 +204,13 @@ export async function registerUser(body: Prisma.UserCreateInput) {
 				userId: createdUser.id,
 			}
 		});
+		
 
 		await sendEmail(
       createdUser.email,
       'Next Pizza / 📝 Подтверждение регистрации',
-      VerificationUserTemplate({
+      // VerificationUserTemplate({
+			React.createElement(VerificationUserTemplate, {
         code,
       }),
 		);
