@@ -148,6 +148,7 @@ import { sendEmail } from '@/shared/lib';
 import { CartItemDTO } from '@/shared/services/dto/cart.dto';
 import { OrderStatus } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import React from 'react';
 
 export async function POST(req: NextRequest) {
 	try {
@@ -197,7 +198,8 @@ export async function POST(req: NextRequest) {
 			await sendEmail(
 				order.email,
 				'Next Pizza / Ваш заказ успешно оформлен 🎉',
-				OrderSuccessTemplate({
+				// OrderSuccessTemplate({
+				React.createElement(OrderSuccessTemplate, {
 					orderId: order.id,
 					items,
 				}),
