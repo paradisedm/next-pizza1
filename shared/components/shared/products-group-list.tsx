@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { useIntersection } from 'react-use'
+// import { useIntersection } from 'react-use'
 import { ProductCard, Title } from '.';
 import { cn } from '@/shared/lib/utils';
 import { useCategoryStore } from '@/shared/store/category';
@@ -21,18 +21,40 @@ export const ProductsGroupList: React.FC<Props> = ({
   listClassName,
   categoryId,
   className,
- }) => {
+}) => {
 	const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
-	const intersectionRef = useRef(null);
-	const intersection = useIntersection(intersectionRef, {
-    threshold: 0.4,
-  });
+	// const intersectionRef = useRef(null);
+	// const intersection = useIntersection(intersectionRef, {
+  //   threshold: 0.4,
+  // });
+
+	// useEffect(() => {
+  //   if (intersection?.isIntersecting) {
+  //     setActiveCategoryId(categoryId);
+  //   }
+  // }, [categoryId, intersection?.isIntersecting, title]);
+	const intersectionRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-    if (intersection?.isIntersecting) {
-      setActiveCategoryId(categoryId);
-    }
-  }, [categoryId, intersection?.isIntersecting, title]);
+		const element = intersectionRef.current;
+
+		if (!element) return;
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					setActiveCategoryId(categoryId);
+				}
+			},
+			{
+				threshold: 0.4,
+			}
+		);
+
+		observer.observe(element);
+
+		return () => observer.disconnect();
+	}, [categoryId, setActiveCategoryId]);
 
 	return (
 		<div className={className} id={title} ref={intersectionRef}>
