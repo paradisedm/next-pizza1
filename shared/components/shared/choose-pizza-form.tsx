@@ -15,7 +15,7 @@ interface Props {
 	ingredients: Ingredient[];
 	items: ProductItem[];
 	loading?: boolean;
-	onSumbit: (itemId: number, ingredients: []) => void;
+	onSumbit: (itemId: number, ingredients: number[]) => void;
 	className?: string;
 }
 
