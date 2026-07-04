@@ -9,6 +9,7 @@ import { getUserSession } from "@/shared/lib/get-user-session";
 import { OrderStatus, Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
+import React from "react";
 
 export async function createOrder(data: CheckoutFormValues) {
 	try {
@@ -124,15 +125,24 @@ export async function createOrder(data: CheckoutFormValues) {
 		// })
 
 		// Посылание письма с заказом на почту
-    await sendEmail(
-      data.email,
-      'Next Pizza / Оплатите заказ #' + order.id,
-      PayOrderTemplate({
-        orderId: order.id,
-        totalAmount: order.totalAmount,
-        paymentUrl,
-      }),
-    );
+    // await sendEmail(
+    //   data.email,
+    //   'Next Pizza / Оплатите заказ #' + order.id,
+    //   PayOrderTemplate({
+    //     orderId: order.id,
+    //     totalAmount: order.totalAmount,
+    //     paymentUrl,
+    //   }),
+    // );
+		await sendEmail(
+			data.email,
+			'Next Pizza / Оплатите заказ #' + order.id,
+			React.createElement(PayOrderTemplate, {
+				orderId: order.id,
+				totalAmount: order.totalAmount,
+				paymentUrl,
+			}),
+		);
 
     return paymentUrl;
 	} catch (error) {
