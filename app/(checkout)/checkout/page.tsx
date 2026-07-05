@@ -26,10 +26,10 @@ export default function CheckoutPage() {
 	const form = useForm<CheckoutFormValues>({
 		resolver: zodResolver(checkoutFormSchema),
 		defaultValues: {
-			email: '',
+			email: 'paradisedmx@gmail.com',
 			firstName: '',
 			lastName: '',
-			phone: '',
+			phone: '+380',
 			address: '',
 			comment: '',
 		},
